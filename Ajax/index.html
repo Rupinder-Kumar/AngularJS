@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Using Ajax Service in Angular JS with Filter Results</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+  </head>
+  <body ng-app="ajaxApp" ng-controller="ajaxController">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                <h1>List of Best Javascript Tutorials</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4">
+              <input type="text" class="form-control" placeholder="Filter Results" ng-model="query">
+            </div>
+              </div>
+              <br>
+        <div class="row">
+            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+
+                <table class="table table-responsive table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Provider</th>
+                        <th>URL</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <!-- filtering and looping results -->
+                        <tr ng-repeat="resource in resources | filter:query">
+                          <td>{{resource.name}}</td>
+                          <td>{{resource.provider}}</td>
+                          <td><a ng-href="{{resource.url}}">{{resource.url}}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+  </body>
+  <script src="js/angular.min.js" charset="utf-8"></script>
+
+  <script type="text/javascript">
+      var app = angular.module("ajaxApp",[]);
+      // intializing query with blank value
+      app.controller('ajaxApp', function($scope) {
+        $scope.query = "";
+      });
+        // controller for the app
+        function ajaxController($scope,$http){
+          // URL to get JSON String
+          var url = "https://api.myjson.com/bins/owmcc";
+        $http.get(url).success( function(response) {
+           $scope.resources = response;
+
+        });
+      }
+  </script>
+</html>
